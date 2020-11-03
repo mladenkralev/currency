@@ -54,7 +54,7 @@ public class ExchangeRateScheduler {
 
         List<Currency> currencies = result.entrySet().stream().map(e -> new Currency(e.getKey(), e.getValue(), currencyDate)).collect(Collectors.toList());
         currencyDate.setRates(currencies);
-        String date = complexResponse.get("date").textValue();
+        Long date = complexResponse.get("timestamp").asLong();
         currencyDate.setDate(date);
 
         currencyPesistence.save(currencyDate);

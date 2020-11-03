@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("api")
@@ -17,7 +18,8 @@ public class CurrencyRest {
     CurrencyDateDAO currencyPersistence;
 
     @GetMapping("current")
-    public List<CurrencyDate> getCurrentExchangeRate() {
-        return currencyPersistence.findAll();
+    public CurrencyDate getCurrentExchangeRate() {
+        return currencyPersistence.findAllByOrderByDateAsc().stream().findFirst().orElse(new CurrencyDate());
     }
+
 }

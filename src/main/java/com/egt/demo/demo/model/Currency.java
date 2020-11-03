@@ -1,5 +1,6 @@
 package com.egt.demo.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Setter;
@@ -22,6 +23,7 @@ public class Currency {
     @ManyToOne
     @EqualsAndHashCode.Exclude @ToString.Exclude
     @JoinColumn(name="currencyDate_id", nullable=false)
+    @JsonIgnore
     CurrencyDate currencyDate;
 
     public Currency() {

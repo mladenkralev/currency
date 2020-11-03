@@ -8,7 +8,10 @@ import lombok.ToString;
 
 import javax.persistence.*;
 import java.text.ParseException;
-import java.time.LocalDate;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -22,8 +25,8 @@ public class CurrencyDate {
     private long id;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
-    LocalDate date;
-
+    @Column(columnDefinition = "TIMESTAMP")
+    LocalDateTime date;
 
     @OneToMany(cascade = {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "currencyDate")
     List<Currency> rates;
@@ -31,8 +34,9 @@ public class CurrencyDate {
     public CurrencyDate() {
     }
 
-    public void setDate(String dateAsString) throws ParseException {
-        date = LocalDate.parse(dateAsString);
+    public void setDate(long longValue) {
+        date = LocalDateTime.ofEpochSecond(longValue, ZoneId.systemDefault())
+                .toInstant()));
     }
 
     public void setRates(List<Currency> rates) {
