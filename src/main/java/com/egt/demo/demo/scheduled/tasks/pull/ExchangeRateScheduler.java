@@ -20,14 +20,20 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * Performs a sync with fixer api and persists it inside Database
+ */
 @Component
 public class ExchangeRateScheduler {
 
     private static final Logger log = LoggerFactory.getLogger(ExchangeRateScheduler.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
+
+    private final String fixerUrl = "http://data.fixer.io/api/latest?access_key={access_key}";
 
     @Value("${fixer.key}")
     private String fixerUserKey;
@@ -38,8 +44,6 @@ public class ExchangeRateScheduler {
     @Autowired
     private CurrencyDateDAO currencyPesistence;
 
-    private String fixerUrl = "http://data.fixer.io/api/latest?access_key={access_key}";
-
     @Scheduled(fixedRateString = "${pull.concurency.scheduler.occurrences.miliseconds}")
     public void reportCurrentTime() throws ParseException {
         log.info("Getting currency rates {}", dateFormat.format(new Date()));
@@ -49,15 +53,22 @@ public class ExchangeRateScheduler {
         JsonNode complexResponse = response.getBody();
         CurrencyDate currencyDate = new CurrencyDate();
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Double> result = mapper.convertValue(complexResponse.get("rates"), new TypeReference<Map<String, Double>>() {
-        });
+        Map<String, Double> result = mapper.convertValue(
+                Objects.requireNonNull(complexResponse, "Expecting response to have rates key").get("rates"),
+                new TypeReference<Map<String, Double>>() {
+                });
 
-        List<Currency> currencies = result.entrySet().stream().map(e -> new Currency(e.getKey(), e.getValue(), currencyDate)).collect(Collectors.toList());
+        List<Currency> currencies = result
+                .entrySet()
+                .stream()
+                .map(e -> new Currency(e.getKey(), e.getValue(), currencyDate)).
+                        collect(Collectors.toList());
+
         currencyDate.setRates(currencies);
-        Long date = complexResponse.get("timestamp").asLong();
+        long date = complexResponse.get("timestamp").asLong();
         currencyDate.setDate(date);
 
+        log.info("Persisting the data {} at {}", currencyDate, dateFormat.format(new Date()));
         currencyPesistence.save(currencyDate);
-
     }
 }

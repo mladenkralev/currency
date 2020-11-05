@@ -1,5 +1,6 @@
 package com.egt.demo.demo.scheduled.tasks;
 
+import com.egt.demo.demo.configuration.ApplicationConfiguration;
 import com.egt.demo.demo.dao.RequestHistoryDAO;
 import com.egt.demo.demo.model.RequestHistory;
 import org.slf4j.Logger;
@@ -16,8 +17,7 @@ import java.util.List;
  */
 @Component
 public class StatisticsCollector {
-
-    Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
+    private final Logger logger = LoggerFactory.getLogger(StatisticsCollector.class);
 
     @Autowired
     private RabbitTemplate rabbitTemplate;
@@ -28,7 +28,8 @@ public class StatisticsCollector {
     @Scheduled(fixedRateString = "${scheduler.statistics.miliseconds}")
     public void sendStatistics() {
         List<RequestHistory> requestHistoryList = requestHistoryDAO.findAll();
-        logger.info("Sending statistics to Rabbit cloud instance");
-        rabbitTemplate.convertAndSend(MessagingApplication.EXCHANGE_NAME, MessagingApplication.ROUTING_KEY, requestHistoryList);
+        logger.info("Sending statistics to Rabbit cloud instance...");
+        rabbitTemplate.convertAndSend(ApplicationConfiguration.EXCHANGE_NAME,
+                ApplicationConfiguration.ROUTING_KEY, requestHistoryList);
     }
 }

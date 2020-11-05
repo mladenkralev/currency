@@ -7,6 +7,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
+/**
+ * Storing requests happens with this model
+ * The model is used to send data throughout rabbitMQ
+ */
 @Entity
 @ToString
 @EqualsAndHashCode

@@ -8,6 +8,9 @@ import lombok.ToString;
 
 import javax.persistence.*;
 
+/**
+ * Represents currency with the exchange rate based on base currency - EUR
+ */
 @Entity
 @Data
 public class Currency {

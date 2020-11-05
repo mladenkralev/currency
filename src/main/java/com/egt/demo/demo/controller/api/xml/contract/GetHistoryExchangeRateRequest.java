@@ -1,10 +1,7 @@
 package com.egt.demo.demo.controller.api.xml.contract;
 
 import com.egt.demo.demo.controller.api.xml.contract.parts.HistoryTag;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.xml.bind.annotation.*;
 
@@ -15,6 +12,7 @@ import javax.xml.bind.annotation.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class GetHistoryExchangeRateRequest {
     @XmlAttribute(name = "id")
     private long id;

@@ -10,6 +10,9 @@ import javax.persistence.*;
 import java.time.*;
 import java.util.List;
 
+/**
+ * Date of the request with all of the currencies based on "base" currency - EUR
+ */
 @Entity
 @ToString(exclude = "rates")
 @EqualsAndHashCode(exclude = "rates")
