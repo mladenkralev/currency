@@ -1,4 +1,4 @@
-package com.egt.demo.demo.scheduled.tasks;
+package com.egt.demo.demo.scheduled.tasks.pull;
 
 import com.egt.demo.demo.dao.CurrencyDateDAO;
 import com.egt.demo.demo.model.Currency;
@@ -40,7 +40,7 @@ public class ExchangeRateScheduler {
 
     private String fixerUrl = "http://data.fixer.io/api/latest?access_key={access_key}";
 
-    @Scheduled(fixedRateString = "${scheduler.occurrences.miliseconds}")
+    @Scheduled(fixedRateString = "${pull.concurency.scheduler.occurrences.miliseconds}")
     public void reportCurrentTime() throws ParseException {
         log.info("Getting currency rates {}", dateFormat.format(new Date()));
 

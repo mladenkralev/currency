@@ -1,17 +1,13 @@
 package com.egt.demo.demo.model;
 
+import com.egt.demo.demo.util.DateTransformator;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.text.ParseException;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
+import java.time.*;
 import java.util.List;
 
 @Entity
@@ -35,8 +31,7 @@ public class CurrencyDate {
     }
 
     public void setDate(long longValue) {
-        date = LocalDateTime.ofEpochSecond(longValue, ZoneId.systemDefault())
-                .toInstant()));
+        this.date = DateTransformator.transform(longValue);
     }
 
     public void setRates(List<Currency> rates) {
