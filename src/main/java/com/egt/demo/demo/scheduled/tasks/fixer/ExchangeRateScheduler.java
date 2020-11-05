@@ -1,4 +1,4 @@
-package com.egt.demo.demo.scheduled.tasks.pull;
+package com.egt.demo.demo.scheduled.tasks.fixer;
 
 import com.egt.demo.demo.dao.CurrencyDateDAO;
 import com.egt.demo.demo.model.Currency;
