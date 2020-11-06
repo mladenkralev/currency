@@ -44,7 +44,7 @@ and application.prop file
     ```
    5. GET endpoint  */api/statistics/{serviceName (optional)}* was exposed
   3. Additionally every request is stored in database. 
-  Recurring requests with same id are consider bad and CONFLICT request is returned.
+  Recurring requests with same id are consider bad and CONFLICT responce is returned.
   See aspects package.
   4. Periodically a statistics is send to cloud instance of messege broker -> RabbitMQ
   5. Dummy validation with a lot of assumption based on document that was supplied.
